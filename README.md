@@ -1,4 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Descript Proxy
+
+A Next.js 15 API proxy for extracting transcripts from Descript share URLs. Built with TypeScript, Tailwind v4, and edge runtime for optimal performance.
+
+## API Endpoints
+
+### GET /api/transcript?u=<DescriptShareUrl>[&expand=true]
+### POST /api/transcript { "url": "<DescriptShareUrl>", "expand": true }
+
+**Response Format:**
+- **200 Success:** `{ ok: true, transcriptUrl, [transcript] }`
+- **4xx/5xx Error:** `{ ok: false, error }`
+
+**Parameters:**
+- `u` (GET) / `url` (POST): Valid Descript share URL (e.g., `https://share.descript.com/view/ABC123`)
+- `expand` (optional): When `true`, returns the full transcript JSON along with the transcript URL
+
+### GET /api/health
+Simple health check endpoint that returns `{ ok: true }`
+
+## Make.com Integration
+
+For quick Make.com wiring (map once and forget):
+
+**HTTP Module Setup:**
+- **URL:** `GET https://<your-deploy>/api/transcript?u={{1.descriptUrl}}`
+- **Result:** `{ transcriptUrl }`
+
+**For JSON in one hop:** Add `&expand=true` and map the `transcript` field.
 
 ## Getting Started
 
@@ -15,8 +43,6 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
